@@ -14,7 +14,6 @@ public int buttonSpacing=70;
 //the start Y position of button
 public int buttonYStart=300;
 public GUISkin myskin;
-	public GUISkin bar;
 	public MainMenu options;
 
 	void Start(){
@@ -24,7 +23,7 @@ public GUISkin myskin;
 
 	void OnGUI()
 		{
-		GUI.skin = bar;
+		GUI.skin = myskin;
 		if(options.optionsButtonPressed == true){
 		GUI.Label(new Rect(Screen.width/2-30.0f,230.0f,100.0f,40.0f),"Master Volume:");
 		// Master sound scroll bar
