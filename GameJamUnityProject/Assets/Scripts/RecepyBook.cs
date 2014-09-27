@@ -14,7 +14,17 @@ public class RecepyBook : MonoBehaviour
     float emptySpace = Screen.height / 25;
     float ySize = Screen.height / 12;
     float xSize = Screen.width / 5 - 3 * (Screen.height / 25);
+	public GameObject[] potions;
+	public int level = 1;
 
+
+	void Start(){
+
+	}
+
+	void Update(){
+
+	}
     void OnGUI()
     {
         GUI.skin = skin;
@@ -40,6 +50,13 @@ public class RecepyBook : MonoBehaviour
             calculatedRects.Add(new Rect(emptySpace, y, xSize, ySize));
             scrollValueLimit = y;
             discovered.Add(recepy);
+			if(recepy.result == potions[0]){
+				level ++;
+			}
         }
     }
+
+	public void Remove(int amount){
+		discovered.RemoveRange(discovered.Count - amount, amount);
+	}
 }

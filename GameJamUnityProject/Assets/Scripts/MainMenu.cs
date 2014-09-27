@@ -30,11 +30,10 @@ public class MainMenu : MonoBehaviour {
 	
 	}
 	void OnGUI(){
-		int width= Screen.width/10;
-		int yPos= Screen.height/10;
+
 		if(mainMenuButtons ==true){
 		if(GUI.Button( new Rect(Screen.width/2,Screen.height/2 -100 ,250,80),startButton, startButtonStyle)){
-			Application.LoadLevel("TutorialLevel");
+			Application.LoadLevel(1);
 			// Insert awesome animation
 		}
 		}
