@@ -42,7 +42,7 @@ public class RecepyBook : MonoBehaviour
         }
     }
 
-    public void Add(Recepy recepy)
+    public bool Add(Recepy recepy)
     {
         if (!discovered.Contains(recepy))
         {
@@ -50,10 +50,12 @@ public class RecepyBook : MonoBehaviour
             calculatedRects.Add(new Rect(emptySpace, y, xSize, ySize));
             scrollValueLimit = y;
             discovered.Add(recepy);
-			if(recepy.result == potions[0]){
+			if(recepy.result == potions[level-1]){
 				level ++;
 			}
+			return true;
         }
+		return false;
     }
 
 	public void Remove(int amount){

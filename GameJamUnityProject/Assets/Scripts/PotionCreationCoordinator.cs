@@ -12,6 +12,8 @@ public class PotionCreationCoordinator : MonoBehaviour
     #region Singleton implementation
     static PotionCreationCoordinator singleton = null;
 
+	public int failedAtempts = 0;
+
     public static PotionCreationCoordinator Get()
     {
         if (singleton == null)
@@ -26,6 +28,7 @@ public class PotionCreationCoordinator : MonoBehaviour
     [HideInInspector] public string currentDescription = null;
 
     PotionFactory factory;
+	public int sucessfulPotions = 0;
 
     void Awake()
     {
@@ -78,11 +81,20 @@ public class PotionCreationCoordinator : MonoBehaviour
             {
                 Debug.Log(result.result.name + " has been crafted!");
                 GameObject g = GameObject.FindGameObjectWithTag("RecepyBook");
-                if (g != null)
-                    g.GetComponent<RecepyBook>().Add(result);
+                if (g != null && g.GetComponent<RecepyBook>().Add(result))
+					sucessfulPotions++;
             }
-            else
+            else{
                 Debug.Log("Creation failed");
+				failedAtempts++;
+				if(failedAtempts == 3){
+					failedAtempts =0;
+					sucessfulPotions = 0;
+					GameObject g = GameObject.FindGameObjectWithTag("RecepyBook");
+					if (g != null)
+						g.GetComponent<RecepyBook>().Remove(sucessfulPotions);
+				}
+			}
         }
         else
             Debug.LogWarning("No ingridients!");
