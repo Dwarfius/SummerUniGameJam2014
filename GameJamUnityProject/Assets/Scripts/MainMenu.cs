@@ -8,6 +8,7 @@ public class MainMenu : MonoBehaviour {
 	public Texture2D instructionsButton;
 	public Texture2D optionsButton;
 	public Texture2D exitButton;
+	public Texture2D instructionsTexture;
 	public bool instrucButtonPressed;
 	public GUIStyle startButtonStyle;
 	public GUIStyle instructionButtonStyle;
