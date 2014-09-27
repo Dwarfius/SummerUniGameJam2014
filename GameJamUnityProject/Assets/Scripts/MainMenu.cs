@@ -30,7 +30,8 @@ public class MainMenu : MonoBehaviour {
 	
 	}
 	void OnGUI(){
-
+		int width= Screen.width/10;
+		int yPos= Screen.height/10;
 		if(mainMenuButtons ==true){
 		if(GUI.Button( new Rect(Screen.width/2,Screen.height/2 -100 ,250,80),startButton, startButtonStyle)){
 			Application.LoadLevel("TutorialLevel");
@@ -64,7 +65,7 @@ public class MainMenu : MonoBehaviour {
 		if(optionsButtonPressed == true){
 			mainMenuButtons = false;
 			GUI.DrawTexture(new Rect(Screen.width/2, Screen.height/2,250,80),optionsTexture, ScaleMode.ScaleToFit);
-			GUI.Label(new Rect(Screen.width/2-30.0f,230.0f,100.0f,40.0f),"Master Volume:");
+			GUI.Label(new Rect(Screen.width/2-30.0f,230.0f,200.0f,80.0f),"Master Volume:");
 				GUI.skin = sideScroll;
 			GameDataScript.volume = Mathf.RoundToInt(GUI.HorizontalScrollbar(new Rect(Screen.width/2-100.0f,250.0f,300.0f,40.0f),GameDataScript.volume,10,0,100));
 			GUI.Label(new Rect(Screen.width/2-150.0f,250.0f,100.0f,40.0f),GameDataScript.volume.ToString());
