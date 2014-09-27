@@ -20,15 +20,6 @@ public class RecepyBook : MonoBehaviour
 	public GUIStyle journalStyle;
 	public TextureAnimationScript textureAnimationScript;
 
-
-
-	void Start(){
-
-	}
-
-	void Update(){
-
-	}
     void OnGUI()
     {
         GUI.skin = skin;

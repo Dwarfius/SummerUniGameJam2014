@@ -39,9 +39,9 @@ public class TextureAnimationScript : MonoBehaviour {
 			close=false;
 			return;
 		}
-		// Repeat when exhausting all cells
-		index = index % totalCells;
-		
+        if (close)
+            index = totalCells - index - 1;
+
 		// Size of every cell
 		float sizeX = 1.0f / colCount;
 		float sizeY = 1.0f / rowCount;
@@ -62,7 +62,7 @@ public class TextureAnimationScript : MonoBehaviour {
 	}
 	public void Reset()
 	{
-		timePassed =0;
+		timePassed = 0;
 		if(oldState == 1)
 			open = true;
 		else
