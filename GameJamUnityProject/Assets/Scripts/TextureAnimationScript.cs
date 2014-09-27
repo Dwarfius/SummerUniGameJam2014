@@ -15,10 +15,14 @@ public class TextureAnimationScript : MonoBehaviour {
 	//Maybe this should be a private var
 	private Vector2 offset;
 	public bool open=false;
-	float timePassed = 0;
+	public bool close=false;
+	float timePassed = 0; 
+	int oldState = 1;
 	//Update
 	void Update () { 
 		if(open==true)
+			SetSpriteAnimation(colCount,rowCount,rowNumber,colNumber,totalCells,fps);
+		if(close==true)
 			SetSpriteAnimation(colCount,rowCount,rowNumber,colNumber,totalCells,fps);
 		}
 	
@@ -30,7 +34,9 @@ public class TextureAnimationScript : MonoBehaviour {
 		int index  = (int)(timePassed * fps);
 		if(index>=totalCells)
 		{
+			if(oldState == 1) oldState = 0; else oldState = 1;
 			open=false;
+			close=false;
 			return;
 		}
 		// Repeat when exhausting all cells
@@ -53,5 +59,13 @@ public class TextureAnimationScript : MonoBehaviour {
 		
 		renderer.material.SetTextureOffset ("_MainTex", offset);
 		renderer.material.SetTextureScale  ("_MainTex", size);
+	}
+	public void Reset()
+	{
+		timePassed =0;
+		if(oldState == 1)
+			open = true;
+		else
+			close = true;
 	}
 }
