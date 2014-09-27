@@ -14,14 +14,25 @@ public class TextureAnimationScript : MonoBehaviour {
 	public int  fps     = 2;
 	//Maybe this should be a private var
 	private Vector2 offset;
+	public bool open=false;
+	float timePassed = 0;
 	//Update
-	void Update () { SetSpriteAnimation(colCount,rowCount,rowNumber,colNumber,totalCells,fps);  }
+	void Update () { 
+		if(open==true)
+			SetSpriteAnimation(colCount,rowCount,rowNumber,colNumber,totalCells,fps);
+		}
 	
 	//SetSpriteAnimation
 	void SetSpriteAnimation(int colCount ,int rowCount ,int rowNumber ,int colNumber,int totalCells,int fps ){
-		
+
+		timePassed += Time.deltaTime;
 		// Calculate index
-		int index  = (int)(Time.time * fps);
+		int index  = (int)(timePassed * fps);
+		if(index>=totalCells)
+		{
+			open=false;
+			return;
+		}
 		// Repeat when exhausting all cells
 		index = index % totalCells;
 		
