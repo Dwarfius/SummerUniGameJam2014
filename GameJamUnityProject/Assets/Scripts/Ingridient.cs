@@ -17,6 +17,11 @@ public class Ingridient : MonoBehaviour
         else
             PotionCreationCoordinator.Get().Remove(gameObject);
         wasAdded = !wasAdded;
+
+        Vector3 pos = transform.position;
+        pos.z = 0;
+        transform.position = pos;
+        Camera.main.GetComponent<TutorialBlock>().Next();
     }
 
     void OnMouseEnter()
