@@ -46,8 +46,10 @@
 	</Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\GameDataScript.cs" />
      <Compile Include="Assets\Scripts\Ingridient.cs" />
      <Compile Include="Assets\Scripts\MainMenu.cs" />
+     <Compile Include="Assets\Scripts\OptionsScript.cs" />
      <Compile Include="Assets\Scripts\Potion.cs" />
      <Compile Include="Assets\Scripts\PotionCreationCoordinator.cs" />
      <Compile Include="Assets\Scripts\PotionFactory.cs" />
