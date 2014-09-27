@@ -15,16 +15,19 @@ public class PotionCreationCoordinator : MonoBehaviour
     public static PotionCreationCoordinator Get()
     {
         if (singleton == null)
+        {
             singleton = (new GameObject("Potion Coordinator Helper")).AddComponent<PotionCreationCoordinator>();
+        }
         return singleton;
     }
     #endregion
 
     [HideInInspector] public List<GameObject> ingridients = new List<GameObject>();
+    [HideInInspector] public string currentDescription = null;
 
     PotionFactory factory;
 
-    void Start()
+    void Awake()
     {
         factory = GameObject.FindGameObjectWithTag("PotionFactory").GetComponent<PotionFactory>();
     }
@@ -37,9 +40,15 @@ public class PotionCreationCoordinator : MonoBehaviour
 
     void OnGUI()
     {
-        string s = "Ingridients selected:";
-        foreach (GameObject g in ingridients)
-            s += "\n" + g.name;
+        string s;
+        if (currentDescription != null)
+            s = currentDescription;
+        else
+        {
+            s = "Ingridients selected:";
+            foreach (GameObject g in ingridients)
+                s += "\n" + g.name;
+        }
         GUI.Box(new Rect(Screen.width / 2 - 200, Screen.height - 100, 400, 75), s);
         if(GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height - 150, 80, 40), "Combine"))
             Create();

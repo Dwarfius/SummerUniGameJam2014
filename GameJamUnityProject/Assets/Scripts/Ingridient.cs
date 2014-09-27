@@ -18,4 +18,14 @@ public class Ingridient : MonoBehaviour
             PotionCreationCoordinator.Get().Remove(gameObject);
         wasAdded = !wasAdded;
     }
+
+    void OnMouseEnter()
+    {
+        PotionCreationCoordinator.Get().currentDescription = gameObject.name;
+    }
+
+    void OnMouseExit()
+    {
+        PotionCreationCoordinator.Get().currentDescription = null;
+    }
 }
