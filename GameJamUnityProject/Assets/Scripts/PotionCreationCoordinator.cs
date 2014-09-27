@@ -29,6 +29,22 @@ public class PotionCreationCoordinator : MonoBehaviour
         factory = GameObject.FindGameObjectWithTag("PotionFactory").GetComponent<PotionFactory>();
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            Clear();
+    }
+
+    void OnGUI()
+    {
+        string s = "Ingridients selected:";
+        foreach (GameObject g in ingridients)
+            s += "\n" + g.name;
+        GUI.Box(new Rect(Screen.width / 2 - 200, Screen.height - 100, 400, 75), s);
+        if(GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height - 150, 80, 40), "Combine"))
+            Create();
+    }
+
     public void Add(GameObject ingridient)
     {
         ingridients.Add(ingridient);

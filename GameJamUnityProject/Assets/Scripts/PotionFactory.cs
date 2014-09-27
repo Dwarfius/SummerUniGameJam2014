@@ -6,7 +6,7 @@ using System.Linq;
 /*
  * Container to storing all the recepies, filled with hand in the levels.
  */
-public class Recepy
+[System.Serializable] public class Recepy
 {
     public GameObject[] ingridients;
     public GameObject result;
@@ -19,9 +19,14 @@ public class PotionFactory : MonoBehaviour
 {
     public List<Recepy> recepies;
 
+    void Awake()
+    {
+        PotionCreationCoordinator.Get(); //creating it, to kickstart everything
+    }
+
     public GameObject CreatePotion(List<GameObject> ingridients)
     {
-        List<Recepy> result = (List<Recepy>)recepies.Where(x =>
+        List<Recepy> result = recepies.Where(x =>
         {
             //checking the same amount of arguments for apropriate recepy, not to find a wrong one
             if (x.ingridients.Length != ingridients.Count)
@@ -43,7 +48,7 @@ public class PotionFactory : MonoBehaviour
                     return false;
             }
             return true;
-        });
+        }).ToList();
         
         if(result.Count > 1) //safety check, cause those errors can pop up due to human factor
         {

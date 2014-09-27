@@ -1,0 +1,6 @@
+GameJamUnityProject/Library/
+GameJamUnityProject/obj/
+
+*.sln
+*.suo
+*.csproj

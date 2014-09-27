@@ -25,7 +25,7 @@ public GUISkin myskin;
 	void OnGUI()
 		{
 		GUI.skin = bar;
-		if(options.mainMenuButtons == false){
+		if(options.optionsButtonPressed == true){
 		GUI.Label(new Rect(Screen.width/2-30.0f,230.0f,100.0f,40.0f),"Master Volume:");
 		// Master sound scroll bar
 		GameDataScript.volume = Mathf.RoundToInt(GUI.HorizontalScrollbar(new Rect(Screen.width/2-100.0f,250.0f,300.0f,40.0f),GameDataScript.volume,10,0,100));
