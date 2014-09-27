@@ -24,7 +24,7 @@ public class PotionFactory : MonoBehaviour
         PotionCreationCoordinator.Get(); //creating it, to kickstart everything
     }
 
-    public GameObject CreatePotion(List<GameObject> ingridients)
+    public Recepy CreatePotion(List<GameObject> ingridients)
     {
         List<Recepy> result = recepies.Where(x =>
         {
@@ -59,7 +59,7 @@ public class PotionFactory : MonoBehaviour
         }
 
         if (result.Count > 0)
-            return result[0].result; //found one
+            return result[0]; //found one
         else
             return null; //didn't find one
     }

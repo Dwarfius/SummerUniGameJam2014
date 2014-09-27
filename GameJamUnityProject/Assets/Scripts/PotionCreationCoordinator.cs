@@ -73,9 +73,14 @@ public class PotionCreationCoordinator : MonoBehaviour
     {
         if (ingridients.Count > 0)
         {
-            GameObject result = factory.CreatePotion(ingridients);
+            Recepy result = factory.CreatePotion(ingridients);
             if (result != null)
-                Debug.Log(result.name + " has been crafted!");
+            {
+                Debug.Log(result.result.name + " has been crafted!");
+                GameObject g = GameObject.FindGameObjectWithTag("RecepyBook");
+                if (g != null)
+                    g.GetComponent<RecepyBook>().Add(result);
+            }
             else
                 Debug.Log("Creation failed");
         }
