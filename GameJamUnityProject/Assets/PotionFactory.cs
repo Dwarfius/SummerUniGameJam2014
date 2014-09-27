@@ -19,6 +19,11 @@ public class PotionFactory : MonoBehaviour
 {
     public List<Recepy> recepies;
 
+    void Awake()
+    {
+        PotionCreationCoordinator.Get(); //creating it, to kickstart everything
+    }
+
     public GameObject CreatePotion(List<GameObject> ingridients)
     {
         List<Recepy> result = (List<Recepy>)recepies.Where(x =>
