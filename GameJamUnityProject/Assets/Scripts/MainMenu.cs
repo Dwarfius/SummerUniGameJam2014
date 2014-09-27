@@ -12,8 +12,12 @@ public class MainMenu : MonoBehaviour {
 	public Texture2D closeInstructionsButton;
 	public bool instrucButtonPressed;
 	public GUIStyle startButtonStyle;
-
-
+	public GUIStyle instructionButtonStyle;
+	public GUIStyle optionsButtonStyle;
+	public bool optionsButtonPressed;
+	public Texture2D optionsTexture;
+	public Texture2D closeOptionsButton;
+	public GUIStyle exitButtonStyle;
 	// Use this for initialization
 	void Start () {
 	
@@ -24,22 +28,31 @@ public class MainMenu : MonoBehaviour {
 	
 	}
 	void OnGUI(){
-		if(GUI.Button( new Rect(10,10,350,50),startButton, startButtonStyle)){
+		if(GUI.Button( new Rect(Screen.width/2,Screen.height/2 -100 ,250,80),startButton, startButtonStyle)){
 			Application.LoadLevel("TutorialLevel");
 			// Insert awesome animation
 		}
-		if(GUI.Button(new Rect(550,270,300,100), instructionsButton)){
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2,250,80), instructionsButton,instructionButtonStyle)){
 			instrucButtonPressed = true;
 
 
 		}
 		if(instrucButtonPressed == true){
-			GUI.DrawTexture(new Rect(300,300, Screen.width/2, Screen.height/2), instructionsTexture, ScaleMode.ScaleToFit);
+			GUI.DrawTexture(new Rect(Screen.width/2,Screen.height/2, 300, 300), instructionsTexture, ScaleMode.ScaleToFit);
 			if(GUI.Button(new Rect(1150,250,20,20), closeInstructionsButton))
 				instrucButtonPressed = false;
 		}
 
-		if(GUI.Button (new Rect(500,400,300,100),exitButton))
+		if(GUI.Button (new Rect(Screen.width/2 +800,Screen.height/2 - 430,140,221),exitButton, exitButtonStyle))
 			Application.Quit();
+
+		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2+100,250,80), optionsButton,optionsButtonStyle)){
+			optionsButtonPressed = true;
+		}
+		if(optionsButtonPressed == true){
+			GUI.DrawTexture(new Rect(Screen.width/2, Screen.height/2,250,80),optionsTexture, ScaleMode.ScaleToFit);
+			if(GUI.Button(new Rect(1150,250,20,20), closeOptionsButton))
+				optionsButtonPressed = false;
+		}
 	}
 }
