@@ -1,77 +1,67 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MainMenu : MonoBehaviour {
+public class MainMenu : MonoBehaviour 
+{
+    public enum State { Main, Instructions, Options };
 
-	public Sprite menuBackground;
-	public Texture2D startButton;
-	public Texture2D instructionsButton;
-	public Texture2D optionsButton;
-	public Texture2D exitButton;
 	public Texture2D instructionsTexture;
 	public Texture2D optionsTexture;
-	public Texture2D backButton;
 	public GUIStyle startButtonStyle;
 	public GUIStyle instructionButtonStyle;
 	public GUIStyle optionsButtonStyle;
 	public GUIStyle exitButtonStyle;
 	public GUIStyle backButtonStyle;
-	public bool optionsButtonPressed;
-	public bool instrucButtonPressed;
-	public bool mainMenuButtons = true;
+    public State state;
 	public GUISkin sideScroll;
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
-	void OnGUI(){
 
-		if(mainMenuButtons ==true){
-		if(GUI.Button( new Rect(Screen.width/2,Screen.height/2 -100 ,250,80),startButton, startButtonStyle)){
-			Application.LoadLevel(1);
-			// Insert awesome animation
-		}
-		}
-		if(mainMenuButtons ==true){
-		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2,250,80), instructionsButton,instructionButtonStyle)){
-			instrucButtonPressed = true;
-			mainMenuButtons = false;
-			}
-		}
-		if(instrucButtonPressed == true){
-			GUI.DrawTexture(new Rect(Screen.width/2,Screen.height/2, 300, 300), instructionsTexture, ScaleMode.ScaleToFit);
-			if(GUI.Button(new Rect(1150,250,250,80), backButton, backButtonStyle)){
-				instrucButtonPressed = false;
-				mainMenuButtons = true;
-			}
+	void OnGUI()
+    {
+        float width = Screen.width / 8;
+        float x = Screen.width / 2 - width / 2;
+        float y = Screen.height / 4;
+        float height = Screen.height / 12;
+        float emptySpace = Screen.height / 25;
+
+		if(state == State.Main)
+        {    
+		    if (GUI.Button(new Rect(x, y, width, height), "", startButtonStyle))
+			    Application.LoadLevel(1);
+            y += height + emptySpace;
+
+            if (GUI.Button(new Rect(x, y, width, height), "", instructionButtonStyle))
+                state = State.Instructions;
+            y += height + emptySpace;
+
+            if (GUI.Button(new Rect(x, y, width, height), "", optionsButtonStyle))
+                state = State.Options;
+            y += height + emptySpace;
+
+            if (GUI.Button(new Rect(x, y, width, height), "", exitButtonStyle))
+                Application.Quit();
 		}
 
-		if(mainMenuButtons ==true){
-		if(GUI.Button (new Rect(Screen.width/2 +800,Screen.height/2 - 430,140,221),exitButton, exitButtonStyle))
-			Application.Quit();
+		if(state == State.Instructions)
+        {
+			GUI.DrawTexture(new Rect(Screen.width / 2, Screen.height / 2, 300, 300), instructionsTexture, ScaleMode.ScaleToFit);
+
+            if (GUI.Button(new Rect(x, y, width, height), "", backButtonStyle))
+                state = State.Main;
 		}
 
-		if(mainMenuButtons ==true){
-		if(GUI.Button(new Rect(Screen.width/2,Screen.height/2+100,250,80), optionsButton,optionsButtonStyle)){
-			optionsButtonPressed = true;
-		}
-		}
-		if(optionsButtonPressed == true){
-			mainMenuButtons = false;
-			GUI.DrawTexture(new Rect(Screen.width/2, Screen.height/2,250,80),optionsTexture, ScaleMode.ScaleToFit);
-			GUI.Label(new Rect(Screen.width/2-30.0f,230.0f,200.0f,80.0f),"Master Volume:");
-			GUI.skin = sideScroll;
-			GameDataScript.volume = Mathf.RoundToInt(GUI.HorizontalScrollbar(new Rect(Screen.width/2-100.0f,250.0f,300.0f,80.0f),GameDataScript.volume,10,0,100));
-			GUI.Label(new Rect(Screen.width/2-150.0f,250.0f,100.0f,40.0f),GameDataScript.volume.ToString());
-			if(GUI.Button(new Rect(1150,250,250,80), backButton, backButtonStyle)){
-				optionsButtonPressed = false;
-				mainMenuButtons = true;
-			}
+		if(state == State.Options)
+        {
+            GUI.skin = sideScroll;
+
+			GUI.Label(new Rect(x, y, width, height / 2), "Master Volume:");
+            y += height / 2;
+
+			GameDataScript.volume = GUI.HorizontalScrollbar(new Rect(x - width, y - height / 10, width * 3, height * 1.5f), GameDataScript.volume, 1, 0, 100);
+			GUI.Label(new Rect(x - width * 1.1f, y + height / 5, width / 10, height), ((int)GameDataScript.volume).ToString());
+            y += height + emptySpace;
+
+            if (GUI.Button(new Rect(x, y, width, height), "", backButtonStyle))
+                state = State.Main;
 		}
 	}
 }

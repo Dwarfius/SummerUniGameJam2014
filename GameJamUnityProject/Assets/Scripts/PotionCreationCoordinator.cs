@@ -12,23 +12,22 @@ public class PotionCreationCoordinator : MonoBehaviour
     #region Singleton implementation
     static PotionCreationCoordinator singleton = null;
 
-	public int failedAtempts = 0;
-
     public static PotionCreationCoordinator Get()
     {
         if (singleton == null)
-        {
-            singleton = (new GameObject("Potion Coordinator Helper")).AddComponent<PotionCreationCoordinator>();
-        }
+            singleton = GameObject.FindGameObjectWithTag("Potion Creation Coordinator").GetComponent<PotionCreationCoordinator>();
         return singleton;
     }
     #endregion
+
+    public GUISkin skin;
+    public int sucessfulPotions = 0;
+    public int failedAtempts = 0;
 
     [HideInInspector] public List<GameObject> ingridients = new List<GameObject>();
     [HideInInspector] public string currentDescription = null;
 
     PotionFactory factory;
-	public int sucessfulPotions = 0;
 
     void Awake()
     {
@@ -43,6 +42,8 @@ public class PotionCreationCoordinator : MonoBehaviour
 
     void OnGUI()
     {
+        GUI.skin = skin;
+
         string s;
         if (currentDescription != null)
             s = currentDescription;
@@ -52,8 +53,8 @@ public class PotionCreationCoordinator : MonoBehaviour
             foreach (GameObject g in ingridients)
                 s += "\n" + g.name;
         }
-        GUI.Box(new Rect(Screen.width / 2 - 200, Screen.height - 100, 400, 75), s);
-        if(GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height - 150, 80, 40), "Combine"))
+        GUI.Box(new Rect(Screen.width / 2 - 150, Screen.height - 100, 300, 75), s);
+        if(ingridients.Count > 0 && GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height - 150, 80, 40), "Combine"))
             Create();
     }
 
@@ -79,24 +80,28 @@ public class PotionCreationCoordinator : MonoBehaviour
             Recepy result = factory.CreatePotion(ingridients);
             if (result != null)
             {
-                Debug.Log(result.result.name + " has been crafted!");
+                currentDescription = result.result.name + " has been crafted!";
                 GameObject g = GameObject.FindGameObjectWithTag("RecepyBook");
                 if (g != null && g.GetComponent<RecepyBook>().Add(result))
 					sucessfulPotions++;
             }
-            else{
-                Debug.Log("Creation failed");
+            else
+            {
+                currentDescription = "Potion creation failed!";
 				failedAtempts++;
-				if(failedAtempts == 3){
-					failedAtempts =0;
+				if(failedAtempts == 3)
+                {
+					failedAtempts = 0;
 					sucessfulPotions = 0;
 					GameObject g = GameObject.FindGameObjectWithTag("RecepyBook");
 					if (g != null)
 						g.GetComponent<RecepyBook>().Remove(sucessfulPotions);
 				}
 			}
+
+            foreach (GameObject ingr in ingridients)
+                ingr.GetComponent<Ingridient>().wasAdded = false;
+            ingridients.Clear();
         }
-        else
-            Debug.LogWarning("No ingridients!");
     }
 }

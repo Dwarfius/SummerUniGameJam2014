@@ -4,7 +4,7 @@ using System.Collections;
 public class GameDataScript : MonoBehaviour {
 	
 
-	public static int volume=50;
+	public static float volume=50;
 
 	public AudioClip Theme;
 	public AudioClip GameOver;

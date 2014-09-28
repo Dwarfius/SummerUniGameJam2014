@@ -8,7 +8,7 @@ public class Ingridient : MonoBehaviour
 {
     public string[] properties;
 
-    bool wasAdded;
+    public bool wasAdded;
 
     void OnMouseDown()
     {
@@ -16,6 +16,7 @@ public class Ingridient : MonoBehaviour
             PotionCreationCoordinator.Get().Add(gameObject);
         else
             PotionCreationCoordinator.Get().Remove(gameObject);
+
         wasAdded = !wasAdded;
 
         Vector3 pos = transform.position;
@@ -26,7 +27,11 @@ public class Ingridient : MonoBehaviour
 
     void OnMouseEnter()
     {
-        PotionCreationCoordinator.Get().currentDescription = gameObject.name;
+        string s = gameObject.name;
+        for (int i = 0; i < properties.Length; i++)
+            s += "\n" + properties[i];
+
+        PotionCreationCoordinator.Get().currentDescription = s;
     }
 
     void OnMouseExit()

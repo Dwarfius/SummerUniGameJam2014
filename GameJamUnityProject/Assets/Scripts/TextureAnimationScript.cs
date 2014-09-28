@@ -1,44 +1,51 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TextureAnimationScript : MonoBehaviour {
-	
+public class TextureAnimationScript : MonoBehaviour 
+{	
 	//vars for the whole sheet
 	public int colCount =  7;
 	public int rowCount =  1;
 	
 	//vars for animation
-	public int  rowNumber  =  0; //Zero Indexed
-	public int colNumber = 0; //Zero Indexed
+    public int rowNumber;
+    public int colNumber;
 	public int totalCells = 7;
-	public int  fps     = 2;
-	//Maybe this should be a private var
-	private Vector2 offset;
-	public bool open=false;
-	public bool close=false;
-	float timePassed = 0; 
-	int oldState = 1;
-	//Update
-	void Update () { 
-		if(open==true)
-			SetSpriteAnimation(colCount,rowCount,rowNumber,colNumber,totalCells,fps);
-		if(close==true)
-			SetSpriteAnimation(colCount,rowCount,rowNumber,colNumber,totalCells,fps);
-		}
-	
-	//SetSpriteAnimation
-	void SetSpriteAnimation(int colCount ,int rowCount ,int rowNumber ,int colNumber,int totalCells,int fps ){
+	public int fps = 2;
 
+	[HideInInspector] public bool open, close;
+    [HideInInspector] public bool isOpen;
+
+	float timePassed = 0; 
+
+    void Start()
+    {
+        Vector3 pos = Camera.main.ViewportToWorldPoint(new Vector3(1, 0.51f, 1));
+        transform.position = pos;
+        renderer.material.SetTextureScale("_MainTex", Vector2.zero);
+        renderer.enabled = true;
+    }
+
+	void Update () 
+    { 
+		if(open)
+			SetSpriteAnimation(colCount,rowCount,rowNumber,colNumber,totalCells,fps);
+		if(close)
+			SetSpriteAnimation(colCount,rowCount,rowNumber,colNumber,totalCells,fps);
+	}
+	
+	void SetSpriteAnimation(int colCount, int rowCount, int rowNumber, int colNumber, int totalCells, int fps)
+    {
 		timePassed += Time.deltaTime;
-		// Calculate index
 		int index  = (int)(timePassed * fps);
+
 		if(index>=totalCells)
 		{
-			if(oldState == 1) oldState = 0; else oldState = 1;
-			open=false;
-			close=false;
+            isOpen = !isOpen;
+            open = close = false;
 			return;
 		}
+
         if (close)
             index = totalCells - index - 1;
 
@@ -60,10 +67,14 @@ public class TextureAnimationScript : MonoBehaviour {
 		renderer.material.SetTextureOffset ("_MainTex", offset);
 		renderer.material.SetTextureScale  ("_MainTex", size);
 	}
+
 	public void Reset()
 	{
+        if (open || close)
+            return;
+        
 		timePassed = 0;
-		if(oldState == 1)
+		if(!isOpen)
 			open = true;
 		else
 			close = true;

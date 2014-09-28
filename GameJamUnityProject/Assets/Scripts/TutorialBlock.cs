@@ -3,8 +3,7 @@ using System.Collections;
 
 public class TutorialBlock : MonoBehaviour 
 {
-    public string[] itemsToUnblock;
-    public Texture2D holeTexture;
+    public GameObject[] itemsToUnblock;
 
     Texture2D blackTexture;
     int current = 0;
@@ -16,7 +15,10 @@ public class TutorialBlock : MonoBehaviour
         blackTexture.SetPixel(0, 0, Color.black);
         blackTexture.Apply();
 
-        GameObject ingridient = GameObject.Find(itemsToUnblock[current]);
+        if (itemsToUnblock.Length == 0)
+            return;
+
+        GameObject ingridient = itemsToUnblock[current];
         Vector3 pos = ingridient.transform.position;
         pos.z = -2;
         ingridient.transform.position = pos;
@@ -32,13 +34,14 @@ public class TutorialBlock : MonoBehaviour
     public void Next()
     {
         current++;
-        if (current == itemsToUnblock.Length)
+        if (current >= itemsToUnblock.Length)
         {
-            wall.SetActive(false);
+            if(wall != null)
+                wall.SetActive(false);
             return;
         }
 
-        GameObject ingridient = GameObject.Find(itemsToUnblock[current]);
+        GameObject ingridient = itemsToUnblock[current];
         Vector3 pos = ingridient.transform.position;
         pos.z = -2;
         ingridient.transform.position = pos;
