@@ -30,6 +30,13 @@ public class RecepyBook : MonoBehaviour
     {
         GUI.skin = skin;
 
+        if (level <= potions.Length)
+        {
+            string s = "Target Potion: " + potions[level - 1].name + "\nHint:" + potions[level - 1].GetComponent<Potion>().hint;
+            float height = GUI.skin.box.CalcHeight(new GUIContent(s), Screen.width / 5);
+            GUI.Box(new Rect(0, 0, Screen.width / 5, height), s);
+        }
+
         if (GUI.Button(new Rect(Screen.width - 120, Screen.height - 70, 120, 70), journal, journalStyle))
             animScript.Reset();
 
