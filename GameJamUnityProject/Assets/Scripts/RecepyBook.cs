@@ -47,14 +47,16 @@ public class RecepyBook : MonoBehaviour
             if (r.y >= -ySize && r.y <= Screen.height * 9f / 10f - ySize)
             {
                 GUIContent c = new GUIContent();
-                c.image = (discovered[i].result.renderer as SpriteRenderer).sprite.texture;
-                c.text = discovered[i].result.name + " = ";
+                if((discovered[i].result.renderer as SpriteRenderer).sprite != null)
+                    c.image = (discovered[i].result.renderer as SpriteRenderer).sprite.texture;
+                c.text = discovered[i].result.name + " (";
                 for (int j = 0; j < discovered[i].ingridients.Length; j++)
                 {
                     c.text += discovered[i].ingridients[j].name;
                     if (j != discovered[i].ingridients.Length - 1)
-                        c.text += " + ";
+                        c.text += ", ";
                 }
+                c.text += ")";
                 GUI.Label(r, c);
             }
         }

@@ -6,6 +6,6 @@ using System.Collections;
  */
 public class Potion : MonoBehaviour 
 {
-    public string effect;
-
+    public string description;
+    public string hint;
 }
