@@ -54,8 +54,11 @@ public class PotionCreationCoordinator : MonoBehaviour
                 s += "\n" + g.name;
         }
         GUI.Box(new Rect(Screen.width / 2 - 150, Screen.height - 100, 300, 75), s);
-        if(ingridients.Count > 0 && GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height - 150, 80, 40), "Combine"))
+        if (ingridients.Count > 0 && GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height - 150, 80, 40), "Combine"))
+        {
+            Camera.main.GetComponent<TutorialBlock>().combinePressed = true;
             Create();
+        }
     }
 
     public void Add(GameObject ingridient)

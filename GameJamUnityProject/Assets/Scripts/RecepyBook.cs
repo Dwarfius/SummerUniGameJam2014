@@ -8,7 +8,6 @@ public class RecepyBook : MonoBehaviour
 
     [HideInInspector] public List<Recepy> discovered = new List<Recepy>();
 
-    List<Rect> calculatedRects = new List<Rect>();
     float scrollValue = 0;
     float scrollValueLimit = 0;
     float emptySpace = Screen.height / 25;
@@ -40,25 +39,32 @@ public class RecepyBook : MonoBehaviour
         scrollValue = GUI.VerticalSlider(new Rect(Screen.width - 25, Screen.height / 10, 20, Screen.height * 8f / 10f), scrollValue, 0, scrollValueLimit);
 
         GUI.matrix = Matrix4x4.TRS(new Vector3(Screen.width * 8f / 10f, Screen.height / 10, 0), Quaternion.AngleAxis(0, Vector3.up), Vector3.one);
+        float y = 0;
         for (int i = 0; i < discovered.Count; i++)
         {
-            Rect r = calculatedRects[i];
-            r.y -= scrollValue; //offseting it because of scroll
-            if (r.y >= -ySize && r.y <= Screen.height * 9f / 10f - ySize)
+            //starting to fill the content
+            GUIContent c = new GUIContent();
+            if ((discovered[i].result.renderer as SpriteRenderer).sprite != null)
+                c.image = (discovered[i].result.renderer as SpriteRenderer).sprite.texture; //adding image
+
+            //starting formatting the text
+            c.text = discovered[i].result.name + " (";
+            for (int j = 0; j < discovered[i].ingridients.Length; j++)
             {
-                GUIContent c = new GUIContent();
-                if((discovered[i].result.renderer as SpriteRenderer).sprite != null)
-                    c.image = (discovered[i].result.renderer as SpriteRenderer).sprite.texture;
-                c.text = discovered[i].result.name + " (";
-                for (int j = 0; j < discovered[i].ingridients.Length; j++)
-                {
-                    c.text += discovered[i].ingridients[j].name;
-                    if (j != discovered[i].ingridients.Length - 1)
-                        c.text += ", ";
-                }
-                c.text += ")";
-                GUI.Label(r, c);
+                c.text += discovered[i].ingridients[j].name;
+                if (j != discovered[i].ingridients.Length - 1)
+                    c.text += ", ";
             }
+            c.text += ")\n" + discovered[i].result.GetComponent<Potion>().description;
+
+            Rect r = new Rect(emptySpace, y, xSize, GUI.skin.label.CalcHeight(c, xSize));
+            r.y -= scrollValue; //offseting it because of scrolls
+
+            y += r.height + emptySpace; //adding the height to draw everything correctly
+
+            //if it's bigger than threshhold - don't draw it
+            if (r.y >= -r.height && r.y <= Screen.height * 9f / 10f - r.height)
+                GUI.Label(r, c);
         }
     }
 
@@ -66,9 +72,7 @@ public class RecepyBook : MonoBehaviour
     {
         if (!discovered.Contains(recepy))
         {
-            float y = calculatedRects.Count * (ySize + emptySpace);
-            calculatedRects.Add(new Rect(emptySpace, y, xSize, ySize));
-            scrollValueLimit = y;
+            scrollValueLimit = discovered.Count * (ySize + emptySpace);
             discovered.Add(recepy);
 
 			if(recepy.result == potions[level-1])
@@ -81,6 +85,5 @@ public class RecepyBook : MonoBehaviour
 	public void Remove(int amount)
     {
 		discovered.RemoveRange(discovered.Count - amount, amount);
-        calculatedRects.RemoveRange(calculatedRects.Count - amount, amount);
 	}
 }
