@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class PauseScript : MonoBehaviour {
-    /*
+
 	public enum State { None, Game, Instructions, Options, };
 	public GUIStyle pauseStyle;
 	TextureAnimationScript animScript;
@@ -61,5 +61,5 @@ public class PauseScript : MonoBehaviour {
 				state = State.Main;
 		}
 
-	}*/
+	}
 }
