@@ -5,6 +5,8 @@ public class TutorialBlock : MonoBehaviour
 {
     public GameObject[] itemsToUnblock;
 
+    [HideInInspector] public bool combinePressed;
+
     Texture2D blackTexture;
     int current = 0;
     GameObject wall;
@@ -16,7 +18,10 @@ public class TutorialBlock : MonoBehaviour
         blackTexture.Apply();
 
         if (itemsToUnblock.Length == 0)
+        {
+            combinePressed = true;
             return;
+        }
 
         GameObject ingridient = itemsToUnblock[current];
         Vector3 pos = ingridient.transform.position;
@@ -45,5 +50,24 @@ public class TutorialBlock : MonoBehaviour
         Vector3 pos = ingridient.transform.position;
         pos.z = -2;
         ingridient.transform.position = pos;
+    }
+
+    void OnGUI()
+    {
+        if (combinePressed && current >= itemsToUnblock.Length)
+            return;
+
+        GUI.skin.box.wordWrap = true;
+        string s;
+        if (current == 0)
+            s = "Welcome to the game. In here you need to combine ingridients with unique proportions in order to create the target potion. Right now, let's start with" +
+                "something simple. Select " + itemsToUnblock[current].name + " - it's the lit up ingridient.";
+        else if (current < itemsToUnblock.Length)
+            s = "Now select " + itemsToUnblock[current].name + ".";
+        else
+            s = "Last step required - you need to press combine to see what happens.";
+
+        float width = Screen.width / 5, height = Screen.height / 4;
+        GUI.Box(new Rect(0, Screen.height/2 - height/2, width, height), s);
     }
 }
