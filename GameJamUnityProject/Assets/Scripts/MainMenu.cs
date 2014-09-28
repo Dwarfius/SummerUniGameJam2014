@@ -14,7 +14,13 @@ public class MainMenu : MonoBehaviour
 	public GUIStyle backButtonStyle;
     public State state;
 	public GUISkin sideScroll;
+	public ScrollTextureAnimation scroll;
+	public GUIStyle masterVolume;
+	public GUIStyle volumeLabel;
 
+	void Start(){
+		scroll = GameObject.FindGameObjectWithTag("Scroll").GetComponent<ScrollTextureAnimation>();
+	}
 	void OnGUI()
     {
         float width = Screen.width / 8;
@@ -34,10 +40,13 @@ public class MainMenu : MonoBehaviour
             y += height + emptySpace;
 
             if (GUI.Button(new Rect(x, y, width, height), "", optionsButtonStyle))
-                state = State.Options;
+			{
+				state = State.Options;
+				scroll.renderer.enabled = true;
+			}
             y += height + emptySpace;
 
-            if (GUI.Button(new Rect(x, y, width, height), "", exitButtonStyle))
+            if (GUI.Button(new Rect(x * 2f, y * 0.045f, width * 0.9f, height * 3), "", exitButtonStyle))
                 Application.Quit();
 		}
 
@@ -49,19 +58,24 @@ public class MainMenu : MonoBehaviour
                 state = State.Main;
 		}
 
+		if(scroll.open == false){
 		if(state == State.Options)
         {
             GUI.skin = sideScroll;
 
-			GUI.Label(new Rect(x, y, width, height / 2), "Master Volume:");
+			GUI.Label(new Rect(x*1.03f, y*1.5f, width, height / 2), "Master Volume", masterVolume);
             y += height / 2;
 
-			GameDataScript.volume = GUI.HorizontalScrollbar(new Rect(x - width, y - height / 10, width * 3, height * 1.5f), GameDataScript.volume, 1, 0, 100);
-			GUI.Label(new Rect(x - width * 1.1f, y + height / 5, width / 10, height), ((int)GameDataScript.volume).ToString());
+			GameDataScript.volume = GUI.HorizontalScrollbar(new Rect(x - width *0.1f, y - height / 2 * (-3.5f), width *1.5f, height * 1.5f), GameDataScript.volume, 1, 0, 100);
+			GUI.Label(new Rect(x - width *0.3f, y + height / 2 *3.5f, width / 10, height), ((int)GameDataScript.volume).ToString(),masterVolume);
             y += height + emptySpace;
 
-            if (GUI.Button(new Rect(x, y, width, height), "", backButtonStyle))
+            if (GUI.Button(new Rect(x*1.05f, y *1.5f, width, height), "", backButtonStyle)){
                 state = State.Main;
+					scroll.renderer.enabled = false;
+					scroll.Reset();
+				}
+		}
 		}
 	}
 }
