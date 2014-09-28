@@ -36,7 +36,7 @@ public class PauseScript : MonoBehaviour {
 		float emptySpace = Screen.height / 25;
 
 		if(state == State.Game){
-			if (GUI.Button(new Rect(x*0.1f, y*0.4f, width*0.7f, height), "", pauseStyle))
+			if (GUI.Button(new Rect(x*0.1f, y*3.5f, width*0.7f, height), "", pauseStyle))
 			{
 				scroll.renderer.enabled = true;
 				//animScript.Reset();
