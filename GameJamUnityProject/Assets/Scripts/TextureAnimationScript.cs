@@ -11,7 +11,7 @@ public class TextureAnimationScript : MonoBehaviour
     public int rowNumber;
     public int colNumber;
 	public int totalCells = 7;
-	public int fps = 2;
+	public int fps = 4;
 
 	[HideInInspector] public bool open, close;
     [HideInInspector] public bool isOpen;
