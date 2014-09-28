@@ -17,6 +17,7 @@ public class MainMenu : MonoBehaviour
 	public ScrollTextureAnimation scroll;
 	public GUIStyle masterVolume;
 	public GUIStyle volumeLabel;
+	public AudioClip bookClip;
 
 	void Start(){
 		scroll = GameObject.FindGameObjectWithTag("Scroll").GetComponent<ScrollTextureAnimation>();
@@ -36,12 +37,16 @@ public class MainMenu : MonoBehaviour
             y += height + emptySpace;
 
             if (GUI.Button(new Rect(x, y, width, height), "", instructionButtonStyle))
+			{
                 state = State.Instructions;
+				audio.Play();
+			}
             y += height + emptySpace;
 
             if (GUI.Button(new Rect(x, y, width, height), "", optionsButtonStyle))
 			{
 				state = State.Options;
+				audio.Play();
 				scroll.renderer.enabled = true;
 			}
             y += height + emptySpace;
@@ -78,4 +83,5 @@ public class MainMenu : MonoBehaviour
 		}
 		}
 	}
+
 }

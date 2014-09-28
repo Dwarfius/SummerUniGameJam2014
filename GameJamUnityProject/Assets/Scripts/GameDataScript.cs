@@ -7,14 +7,6 @@ public class GameDataScript : MonoBehaviour {
 	public static float volume=50;
 
 	public AudioClip Theme;
-	public AudioClip GameOver;
-	public AudioClip Game;
-	public AudioClip gun;
-	public AudioClip engine;
-	public AudioClip startup;
-	public AudioClip pickup;
-	public AudioClip death;
-	public AudioClip click;
 		
 	void Start () 
 		{
