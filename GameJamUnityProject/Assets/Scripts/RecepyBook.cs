@@ -24,6 +24,7 @@ public class RecepyBook : MonoBehaviour
     void Start()
     {
         animScript = gameObject.GetComponent<TextureAnimationScript>();
+		AudioPlugin.PlayClip(potions[0].name);
     }
 
     void OnGUI()
@@ -86,7 +87,10 @@ public class RecepyBook : MonoBehaviour
             discovered.Add(recepy);
 
 			if(recepy.result == potions[level-1])
+			{
 				level ++;
+				AudioPlugin.PlayClip(potions[level - 1].name, 3);
+			}
 			return true;
         }
 		return false;
