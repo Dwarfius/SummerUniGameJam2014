@@ -70,10 +70,10 @@ public class RecepyBook : MonoBehaviour
             Rect r = new Rect(emptySpace, y, xSize, GUI.skin.label.CalcHeight(c, xSize));
             r.y -= scrollValue; //offseting it because of scrolls
 
-            y += r.height + emptySpace; //adding the height to draw everything correctly
+            y += ySize + emptySpace; //adding the height to draw everything correctly
 
             //if it's bigger than threshhold - don't draw it
-            if (r.y >= -r.height && r.y <= Screen.height * 9f / 10f - r.height)
+			if (r.y >= -ySize && r.y <= Screen.height * 9f / 10f - ySize)
                 GUI.Label(r, c);
         }
     }
