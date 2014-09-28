@@ -38,7 +38,10 @@ public class RecepyBook : MonoBehaviour
         }
 
         if (GUI.Button(new Rect(Screen.width - 120, Screen.height - 70, 120, 70), journal, journalStyle))
+        {
+            AudioPlugin.PlayClip("book 1");
             animScript.Reset();
+        }
 
         if (!animScript.isOpen || animScript.close) //don't draw if it's closed or closing
             return;

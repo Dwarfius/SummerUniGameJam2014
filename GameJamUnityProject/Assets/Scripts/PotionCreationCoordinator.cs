@@ -83,6 +83,9 @@ public class PotionCreationCoordinator : MonoBehaviour
             Recepy result = factory.CreatePotion(ingridients);
             if (result != null)
             {
+                int i = Random.Range(0, 100);
+                string sound = i < 33 ? "eureka" : i < 66 ? "well done" : "it worked";
+                AudioPlugin.PlayClip(sound);
                 currentDescription = result.result.name + " has been crafted!";
                 GameObject g = GameObject.FindGameObjectWithTag("RecepyBook");
                 if (g != null && g.GetComponent<RecepyBook>().Add(result))
@@ -90,6 +93,9 @@ public class PotionCreationCoordinator : MonoBehaviour
             }
             else
             {
+                int i = Random.Range(0, 100);
+                string s = i < 50 ? "eeugh" : "try again";
+                AudioPlugin.PlayClip(s);
                 currentDescription = "Potion creation failed!";
 				failedAtempts++;
 				if(failedAtempts == 3)
