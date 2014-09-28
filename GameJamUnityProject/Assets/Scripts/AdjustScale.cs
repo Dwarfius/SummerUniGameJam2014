@@ -1,27 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[ExecuteInEditMode]
 public class AdjustScale : MonoBehaviour 
 {
     public float width, height;
 
-    void Start()
+    void Update()
     {
-        float currentWidth = (renderer as SpriteRenderer).sprite.bounds.size.x * transform.localScale.x;
-        float currentHeight = (renderer as SpriteRenderer).sprite.bounds.size.y * transform.localScale.y;
+        transform.localScale = Vector3.one;
 
-        Vector3 bottomLeft = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, 0));
-        Vector3 topRight = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, 0));
+        float currentWidth = (renderer as SpriteRenderer).sprite.bounds.size.x;
+        float currentHeight = (renderer as SpriteRenderer).sprite.bounds.size.y;
 
-        float screenWidth = topRight.x - bottomLeft.x;
-        float screenHeight = topRight.y - bottomLeft.y;
+        double screenHeight = Camera.main.orthographicSize * 2.0;
+        double screenWidth = screenHeight / Screen.height * Screen.width;
 
-        float xScale = currentWidth / screenWidth * width;
-        float yScale = currentHeight / screenHeight * height;
+        float xScale = (float)(screenWidth / currentWidth / width);
+        float yScale = (float)(screenHeight / currentHeight / height);
 
         Vector3 scale = transform.localScale;
-        scale.x /= xScale;
-        scale.y /= yScale;
+        scale.x = xScale;
+        scale.y = yScale;
         transform.localScale = scale;
     }
 }
